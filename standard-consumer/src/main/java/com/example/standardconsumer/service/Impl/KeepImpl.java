@@ -1,15 +1,9 @@
 package com.example.standardconsumer.service.Impl;
 
-import com.example.standardconsumer.dao.SongListMapper;
-import com.example.standardconsumer.dao.SongMapper;
 import com.example.standardconsumer.feignApi.KeepServiceApi;
 import com.example.standardconsumer.service.KeepService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
 @Service
 public class KeepImpl implements KeepService {
 

@@ -3,6 +3,7 @@ package com.example.demo.dao;
 import com.example.demo.entity.Song;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 public interface SongMapper {
@@ -70,4 +71,10 @@ public interface SongMapper {
     void getPushSong(Map<String, Object> Map);
 
     Integer addSong(@Param("song")Song song);
+
+    void getSongRankList(Map<String, List<Object>> Map);
+
+    void getSingerRankList(Map<String, List<Object>> map);
+
+    void getAlbumRankList(Map<String, List<Object>> map);
 }

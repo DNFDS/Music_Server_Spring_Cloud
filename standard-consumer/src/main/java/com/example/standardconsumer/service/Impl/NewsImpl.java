@@ -1,7 +1,5 @@
 package com.example.standardconsumer.service.Impl;
 
-import com.example.standardconsumer.dao.NewsCommentMapper;
-import com.example.standardconsumer.dao.NewsMapper;
 import com.example.standardconsumer.domain.News;
 import com.example.standardconsumer.domain.NewsComment;
 import com.example.standardconsumer.domain.User;
@@ -10,10 +8,7 @@ import com.example.standardconsumer.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class NewsImpl implements NewsService {

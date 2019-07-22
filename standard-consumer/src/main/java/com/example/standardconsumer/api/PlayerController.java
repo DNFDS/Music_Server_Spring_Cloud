@@ -18,6 +18,7 @@ import java.util.Map;
 
 @Controller
 @CrossOrigin
+@RequestMapping("/standard-consumer")
 public class PlayerController
 {
     @Autowired

@@ -122,6 +122,5 @@ public interface AdminServiceApi {
 
 	@GetMapping(value = "/getSongBySAName")
 	ArrayList<String> getSongBySAName(@RequestParam String singername,@RequestParam  String albumname);
-
 }
 

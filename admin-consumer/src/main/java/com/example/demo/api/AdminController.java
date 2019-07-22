@@ -1,29 +1,32 @@
 package com.example.demo.api;
 
 
+import com.example.demo.common.ServerException;
 import com.example.demo.domain.Album;
 import com.example.demo.domain.Singer;
 import com.example.demo.domain.Song;
 import com.example.demo.domain.comments;
 import com.example.demo.service.AdminService;
 import feign.Param;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
 @CrossOrigin
 @Controller
 @EnableAutoConfiguration
+@RequestMapping("/admin-consumer")
 public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
+    private static Logger log = LoggerFactory.getLogger(AdminController.class);
 
     @PostMapping(value = "/api/adminLogin")
     public String adminLogin(@Param("id") String id, @Param("pwd") String pwd){
@@ -270,6 +273,16 @@ public class AdminController {
     @GetMapping(value="/api/getSongBySAName")
     public Object getSongBySAName(@Param("singername") String singername,@Param("albumname") String albumname){
         return adminService.getSongBySAName(singername, albumname);
+    }
+
+    @PutMapping(value = "/updateRankCache")
+    public String updateRankCache() {
+        try {
+            return adminService.updateRankCache();
+        } catch (Exception e) {
+            log.error("update rank cache error for : ", e);
+            throw  new ServerException(e);
+        }
     }
 
 }

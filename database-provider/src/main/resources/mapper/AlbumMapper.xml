@@ -28,6 +28,9 @@
   <select id="getAllAlbum" parameterType="java.util.HashMap" statementType="CALLABLE">
     call ALBUM_PKG.get_all_album(#{albums,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=AlbumResultMap})
   </select>
+  <select id="getAlbu,RankList" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONG_PKG.get_album_rank(#{albums,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SingerResultMap})
+  </select>
   <insert id="addAlbum">
     INSERT INTO ALBUM (ALBUMID, ALBUMNAME, SINGERID, ALBUMIMAGE, ALBUMAGE, LANGUAGE, COMPANY, ADMINID, FREE)
     VALUES (#{album.albumid},#{album.albumname},#{album.singerid},#{album.albumimage},#{album.albumage},#{album.language},#{album.company},#{album.adminid},#{album.free})

@@ -5,13 +5,15 @@ import com.example.standardconsumer.service.SongListService;
 import com.example.standardconsumer.service.SongService;
 import com.example.standardconsumer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
+@Controller
 @CrossOrigin
-@RestController
+@RequestMapping("/standard-consumer")
 public class SearchController {
     @Autowired
     UserService userService;

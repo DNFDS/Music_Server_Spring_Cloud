@@ -1,23 +1,20 @@
 package com.example.standardconsumer.service.Impl;
 
-import com.example.standardconsumer.dao.AlbumMapper;
-import com.example.standardconsumer.dao.BuyMapper;
-import com.example.standardconsumer.dao.SongMapper;
-import com.example.standardconsumer.dao.UserMapper;
-import com.example.standardconsumer.dao.CommentsMapper;
-import com.example.standardconsumer.domain.*;
+import com.example.standardconsumer.domain.Buy;
+import com.example.standardconsumer.domain.Singer;
+import com.example.standardconsumer.domain.Song;
+import com.example.standardconsumer.domain.comments;
 import com.example.standardconsumer.domain.result.ResultEntity;
 import com.example.standardconsumer.feignApi.NewsServiceApi;
+import com.example.standardconsumer.feignApi.RankServiceApi;
 import com.example.standardconsumer.feignApi.SongServiceApi;
 import com.example.standardconsumer.feignApi.UserServiceApi;
 import com.example.standardconsumer.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Service
 public class SongImpl implements SongService {
@@ -30,6 +27,9 @@ public class SongImpl implements SongService {
 
     @Autowired
     UserServiceApi userServiceApi;
+
+    @Autowired
+    RankServiceApi rankServiceApi;
 
     @Override
     public ResultEntity getSingersInSong(String songid){
@@ -92,4 +92,8 @@ public class SongImpl implements SongService {
         return succ.equals("1");
     }
 
+    @Override
+    public List<Object> getSongRankList() {
+        return rankServiceApi.getSongRankCache();
+    }
 }

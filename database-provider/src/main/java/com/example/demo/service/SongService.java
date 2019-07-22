@@ -6,6 +6,7 @@ import com.example.demo.entity.Song;
 import com.example.demo.entity.comments;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface SongService {
     boolean playSong(String songid,String userid);
@@ -17,4 +18,5 @@ public interface SongService {
     Song getSongById(String songid);
     boolean commentSong(String words,String songid,String userid);
 	String isSongBought(String songid, String albumid, String userid);
+    List<Object> getSongRankList();
 }

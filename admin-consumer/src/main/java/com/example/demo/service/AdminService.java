@@ -81,5 +81,6 @@ public interface AdminService {
 
 	ArrayList<String> getSongBySAName(String singername, String albumname);
 
+    String updateRankCache();
 }
 

@@ -37,4 +37,7 @@ public interface SingerServiceApi
     @GetMapping(value = "/getSongSinger")
     ArrayList<Singer> getSongSinger( @RequestParam String userid);
 
+    @GetMapping(value = "/getSingerUserLike")
+    ArrayList<Singer> getSingerUserLike( @RequestParam String userid);
+
 }

@@ -1,6 +1,5 @@
 package com.example.standardconsumer.service.Impl;
 
-import com.example.standardconsumer.dao.*;
 import com.example.standardconsumer.domain.*;
 import com.example.standardconsumer.feignApi.AlbumServiceApi;
 import com.example.standardconsumer.feignApi.HistoryServiceApi;
@@ -10,7 +9,6 @@ import com.example.standardconsumer.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;

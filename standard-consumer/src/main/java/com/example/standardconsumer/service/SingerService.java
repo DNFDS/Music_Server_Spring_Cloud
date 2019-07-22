@@ -5,6 +5,7 @@ import com.example.standardconsumer.domain.Singer;
 import com.example.standardconsumer.domain.Song;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface SingerService {
     Singer getSingerById(String singerid);
@@ -16,4 +17,5 @@ public interface SingerService {
     ArrayList<Song> getSingerSong(String singerid);
     ArrayList<Album> getSingerAlbum(String singerid);
     ArrayList<Singer> getSingerByNamePart(String word);
+    List<Object> getSingerRankList();
 }

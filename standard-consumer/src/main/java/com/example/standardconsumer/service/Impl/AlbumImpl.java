@@ -3,12 +3,14 @@ package com.example.standardconsumer.service.Impl;
 import com.example.standardconsumer.domain.Album;
 import com.example.standardconsumer.domain.Song;
 import com.example.standardconsumer.feignApi.AlbumServiceApi;
+import com.example.standardconsumer.feignApi.RankServiceApi;
 import com.example.standardconsumer.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -16,6 +18,8 @@ public class AlbumImpl implements AlbumService {
 
     @Autowired
     AlbumServiceApi albumServiceApi;
+    @Autowired
+    RankServiceApi rankServiceApi;
     @Override
     public Album getAlbumByAlbumId(String albumid){
         Map<String,Object> map = new HashMap<>();
@@ -43,4 +47,9 @@ public class AlbumImpl implements AlbumService {
         ArrayList<Album> albums = albumServiceApi.getCommandAlbum(userid);
         return albums;
     }
+    @Override
+    public List<Object> getAlbumRankList() {
+        return rankServiceApi.getAlbumRankCache();
+    }
+
 }

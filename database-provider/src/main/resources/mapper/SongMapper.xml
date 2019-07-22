@@ -43,6 +43,9 @@
   <select id="getPushSong" parameterType="java.util.HashMap" statementType="CALLABLE">
   call PUSHSONG_PKG.pushsong(#{userid,mode=IN,jdbcType=VARCHAR},#{songs,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongResultMap})
   </select>
+  <select id="getSongRankList" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONG_PKG.get_song_rank(#{songs,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SingerResultMap})
+  </select>
   <insert id="addSong" useGeneratedKeys="true" keyProperty="songid">
 INSERT INTO SONG
 (SONGID,SONGPATH,SONGNAME,SONGIMAGE,LENGTH,PLAYTIMES,ALBUMID,SONGSCHOOL,SONGAGE,COMPANY,LANGUAGE,SAVENUM,ADMINID,FREE,LYRIC,SINGER,SINGERID)

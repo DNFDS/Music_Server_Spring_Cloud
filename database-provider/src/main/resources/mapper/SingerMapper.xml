@@ -37,6 +37,9 @@
   <select id="getSingerUserLike" statementType="CALLABLE">
   call SINGER_PKG.get_singer_user_like(#{userid,jdbcType=VARCHAR,mode=IN},#{singers,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SingerResultMap})
   </select>
+  <select id="getSingerRankList" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONG_PKG.get_singer_rank(#{singers,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SingerResultMap})
+  </select>
   <insert id="addSinger">
     INSERT INTO SINGER(SINGERID, SINGERNAME, SINGERIMAGE, SINGERSEX, REGION, INTRODUCTION, ADMINID)
     VALUES (#{singer.singerid},#{singer.singername},#{singer.singerimage},#{singer.singersex},#{singer.region},#{singer.introduction},#{singer.adminid})

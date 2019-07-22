@@ -1,19 +1,17 @@
 package com.example.standardconsumer.service.Impl;
 
-import com.example.standardconsumer.dao.AlbumMapper;
-import com.example.standardconsumer.dao.SongListMapper;
-import com.example.standardconsumer.dao.SongMapper;
-import com.example.standardconsumer.domain.*;
+import com.example.standardconsumer.domain.Album;
+import com.example.standardconsumer.domain.Singer;
+import com.example.standardconsumer.domain.Song;
+import com.example.standardconsumer.domain.SongList;
 import com.example.standardconsumer.domain.result.ResultEntity;
 import com.example.standardconsumer.feignApi.AlbumServiceApi;
 import com.example.standardconsumer.feignApi.SingerServiceApi;
 import com.example.standardconsumer.feignApi.SongListServiceApi;
 import com.example.standardconsumer.service.SongListService;
-import com.example.standardconsumer.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

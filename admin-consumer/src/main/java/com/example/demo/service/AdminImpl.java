@@ -1,6 +1,7 @@
-package com.example.demo.service.Impl;
+package com.example.demo.service;
 
 import com.example.demo.feignApi.AdminServiceApi;
+import com.example.demo.feignApi.RankServiceApi;
 import com.example.demo.service.AdminService;
 import com.example.demo.domain.Album;
 import com.example.demo.domain.Singer;
@@ -20,6 +21,9 @@ public class AdminImpl implements AdminService {
 
     @Autowired
     AdminServiceApi adminServiceApi;
+
+    @Autowired
+    RankServiceApi rankServiceApi;
 
     @Override
     public String isAdminExist(String id, String pwd){
@@ -206,6 +210,11 @@ public class AdminImpl implements AdminService {
     @Override
 	public ArrayList<String> getSongBySAName(String singername,String albumname){
         return adminServiceApi.getSongBySAName(singername,albumname);
+    }
+
+    @Override
+    public String updateRankCache() {
+        return rankServiceApi.updateRankCache();
     }
 
 }

@@ -20,7 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@EnableAutoConfiguration
+@CrossOrigin
+@RequestMapping("/standard-consumer")
 public class DetailController {
 
     @Autowired

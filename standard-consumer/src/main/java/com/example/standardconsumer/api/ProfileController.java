@@ -8,9 +8,12 @@ import com.example.standardconsumer.service.UserService;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
+@CrossOrigin
+@RequestMapping("/standard-consumer")
 public class ProfileController {
 
     @Autowired

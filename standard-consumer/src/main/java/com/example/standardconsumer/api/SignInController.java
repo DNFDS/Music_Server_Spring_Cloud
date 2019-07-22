@@ -1,7 +1,5 @@
 package com.example.standardconsumer.api;
 
-import com.example.standardconsumer.dao.SongListMapper;
-import com.example.standardconsumer.dao.SongMapper;
 import com.example.standardconsumer.domain.Album;
 import com.example.standardconsumer.domain.Song;
 import com.example.standardconsumer.domain.SongList;
@@ -13,16 +11,18 @@ import com.example.standardconsumer.service.SongService;
 import com.example.standardconsumer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Map;
 
 @Controller
+@CrossOrigin
+@RequestMapping("/standard-consumer")
 public class SignInController {
 
     @Autowired

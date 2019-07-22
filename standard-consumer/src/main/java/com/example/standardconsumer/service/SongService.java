@@ -5,6 +5,7 @@ import com.example.standardconsumer.domain.comments;
 import com.example.standardconsumer.domain.result.ResultEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface SongService {
     boolean playSong(String songid,String userid);
@@ -15,4 +16,6 @@ public interface SongService {
     ResultEntity getBoughtSongByUserId(String userid);
     Song getSongById(String songid);
     boolean commentSong(String words,String songid,String userid);
+
+    List<Object> getSongRankList();
 }

@@ -1,20 +1,18 @@
 package com.example.standardconsumer.service.Impl;
 
-import com.example.standardconsumer.dao.AlbumMapper;
-import com.example.standardconsumer.dao.SingerMapper;
-import com.example.standardconsumer.dao.SongMapper;
 import com.example.standardconsumer.domain.Album;
 import com.example.standardconsumer.domain.Singer;
 import com.example.standardconsumer.domain.Song;
-import com.example.standardconsumer.feignApi.*;
+import com.example.standardconsumer.feignApi.AlbumServiceApi;
+import com.example.standardconsumer.feignApi.RankServiceApi;
+import com.example.standardconsumer.feignApi.SingerServiceApi;
+import com.example.standardconsumer.feignApi.SongServiceApi;
 import com.example.standardconsumer.service.SingerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 @Service
 public class SingerImpl implements SingerService {
     @Autowired
@@ -25,6 +23,9 @@ public class SingerImpl implements SingerService {
 
     @Autowired
     SongServiceApi songServiceApi;
+
+    @Autowired
+    RankServiceApi rankServiceApi;
 
     public Singer getSingerById(String singerid){
         ArrayList<Singer> singers = singerServiceApi.getSingerById(singerid);;
@@ -80,4 +81,8 @@ public class SingerImpl implements SingerService {
         return singers;
     }
 
+    @Override
+    public List<Object> getSingerRankList() {
+        return rankServiceApi.getSingerRankCache();
+    }
 }

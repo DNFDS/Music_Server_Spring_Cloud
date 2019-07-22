@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -54,5 +55,11 @@ public class AlbumImpl implements AlbumService {
         map.put("userid",singerid);
         albumMapper.getAlbumBySingerId(map);
         return (ArrayList<Album>)map.get("albums");
+    }
+
+    public List<Object> getAlbumRankList(){
+        Map<String,List<Object>> map = new HashMap<>();
+        songMapper.getAlbumRankList(map);
+        return map.get("albumrank");
     }
 }

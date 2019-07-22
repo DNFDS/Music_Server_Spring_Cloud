@@ -1,12 +1,6 @@
 package com.example.standardconsumer.service.Impl;
 
-import com.example.standardconsumer.dao.AlbumMapper;
-import com.example.standardconsumer.dao.BuyMapper;
-import com.example.standardconsumer.dao.SongListMapper;
-import com.example.standardconsumer.dao.UserMapper;
-import com.example.standardconsumer.domain.Album;
 import com.example.standardconsumer.domain.BuyKey;
-import com.example.standardconsumer.domain.Song;
 import com.example.standardconsumer.domain.SongList;
 import com.example.standardconsumer.domain.User;
 import com.example.standardconsumer.domain.result.ResultEntity;
@@ -30,9 +24,6 @@ public class UserImpl implements UserService {
 
     @Autowired
     SongListServiceApi songListServiceApi;
-
-    @Resource
-    private SingerService singerService;
 
     @Override
     public ResultEntity SignIn(User user) {

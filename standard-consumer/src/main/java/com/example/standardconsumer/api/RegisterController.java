@@ -4,6 +4,7 @@ import com.example.standardconsumer.domain.User;
 import com.example.standardconsumer.domain.result.ResultEntity;
 import com.example.standardconsumer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,8 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
+@Controller
 @CrossOrigin
-@RestController
+@RequestMapping("/standard-consumer")
 public class RegisterController {
 
     @Autowired
