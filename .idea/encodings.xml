@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/admin-consumer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/api-provider" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cms-consumer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database-provider" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/erukasever" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/standard-consumer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zuul-gateway" charset="UTF-8" />
+  </component>
+</project>
