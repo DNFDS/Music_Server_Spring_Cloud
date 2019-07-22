@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>搜索音乐</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/PersonalMessage.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+    <link href="../css/search.css" rel="stylesheet">
+    <link href="../css/search_song.css" rel="stylesheet">
+    <link href="../css/like_song.css" rel="stylesheet">
+    <script src="/JS/jquery-3.3.1.min.js"></script>
+    <script src="/JS/bootstrap.min.js"></script>
+    <script src="/JS/search_js.js"></script>
+    <script src="/JS/main_js.js"></script>
+    <script src="/JS/play.js"></script>
+    <script src="/JS/showChooser.js"></script>
+    <script src="/JS/newSonglist.js"></script>
+    <script>
+        $(document).ready(function(){
+            /*<![CDATA[*/
+            var size = [[${users.size()}]];
+            /*]]>*/
+            for (var num =0; num<size; num++) {
+                $("#oa_"+num).hide();
+            }
+        });
+        function popwindowup(i){
+            var styleVal1 = document.getElementById('popwindow').getAttribute("style");
+            var len= styleVal1.length;
+            var xx= styleVal1.substring(0,14);
+            var yy= styleVal1.substring(14,len);
+            var zz="display:block;position:absolute;";
+            var top=228+i*50;
+            styleVal1=zz+"left:548px;top:"+top+"px;";
+            document.getElementById("popwindow").setAttribute("style",styleVal1);
+        }
+        function FollowUser(userid,index) {
+            var btn_id = "focus"+index;
+            $.ajax({
+                type:"GET",
+                url:"/profile/changeFollow",
+                data:{
+                    id:userid
+                },
+                dataType:"json",   //返回值类型       使用json的话也可以，但是需要在JS中编写迭代的html代码，如果格式样式
+                cache:true,
+                success:function(dataObj) {
+                    var tab = document.getElementById(btn_id);
+                    if (dataObj.succ === '1') {
+                        if (dataObj.flag === '1') {
+                            tab.innerHTML="取消关注";
+                            showTips('关注成功',50,1);
+                        } else {
+                            tab.innerHTML="关注";
+                            showTips('取消关注成功',50,1);
+                        }
+                    }
+                    else
+                        alert('请求失败');
+                }
+            });
+        }
+    </script>
+    <style>
+        .mod_songlist {
+            padding-bottom:50px;
+            min-height:400px;
+        }
+        body {
+            background-color: #fafafa;
+        }
+        .songlist__header, .songlist__list1,.songlist__list2 {
+            position: relative;
+            padding-left: 20px;
+            padding-right: 100px;
+        }
+        .songlist__header{
+            height: 50px;
+            line-height: 50px;
+            background-color: rgba(0,0,0,.01);
+            color: #999;
+        }
+        .songlist__header_name {
+            float: left;
+            width: 56%;
+            position: relative;
+            white-space: normal;
+        }
+        .songlist__header_album, .songlist__header_author {
+            float: right;
+            padding-left: 20px;
+            width: 22%;
+            box-sizing: border-box;
+        }
+        .songlist__header_time {
+            position: absolute;
+            top: 0;
+            right: 38px;
+            width: 50px;
+        }
+        .songlist__header_other{
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 38px;
+            overflow: inherit;
+        }
+        .songlistlist1 {
+            height: 70px;
+            line-height: 50px;
+            background-color:rgba(251,251,251,1.00);
+            color: #727272;
+        }
+        .songlistlist2 {
+            height: 70px;
+            line-height: 50px;
+            background-color: rgba(0,0,0,.01);
+            color: #727272;
+        }
+        .songlist__name{
+            float: left;
+            padding-top:10px;
+            width: 36%;
+            position: relative;
+            white-space: normal;
+        }
+        .songlist__btn{
+            float: left;
+            top:10px;
+            width: 20%;
+            position: relative;
+            white-space: normal;
+        }
+        .songlist_btn{
+            margin-left: 10px;
+        }
+        .songlist__album, .songlist__author {
+            float: right;
+            padding-top:10px;
+            padding-left: 20px;
+            width: 22%;
+            box-sizing: border-box;
+        }
+        .songlist__time {
+            position: absolute;
+            top: 10px;
+            right: 38px;
+            width: 50px;
+        }
+        .songlist__other {
+            position: absolute;
+            top: 10px;
+            right: 0;
+            width: 38px;
+            overflow: inherit;
+        }
+        .playlist__cover {
+            float: left;
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        .style_switch {
+            position: absolute;
+            top: 30px;
+            right: 0;
+            width: 80px;
+            height: 38px;
+            border-radius: 2px;
+            border: 1px solid #c9c9c9;
+        }
+        .style_switch__item {
+            float: left;
+            width: 50%;
+            height: 38px;
+            position: relative;
+        }
+        .style_switch__item_right {
+            float: left;
+            width: 50%;
+            height: 36px;
+            position: relative;
+        }
+        .style_switch__item--select {
+            background-color: rgba(22,154,243,1.00);
+        }
+        .style_switch__item_img {
+            margin-left: 12px;
+            margin-top: 10px;
+        }
+        .mod_songlist {
+            margin-top: 50px;
+        }
+        .mod_songlist_toolbar{
+            padding-top:0px
+        }
+        .mod_singer_list_text {
+            margin-top: 50px;
+            margin-bottom: 20px;
+            min-height: 500px;
+
+        }
+        .singer_list__item {
+
+            position: relative;
+            height: 80px;
+            display: table;
+            width: 100%;
+
+        }
+        .singer_list__playlist, .singer_list__title {
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 14px;
+
+        }
+        .singer_list__title {
+
+            width: 40%;
+            min-width: 280px;
+            font-weight: 400;
+            text-indent: 20px;
+            overflow: hidden;
+            line-height: 80px;
+            padding-left: 20px;
+            font-size: 0;
+
+        }
+        .singer_list__cover {
+
+            position: relative;
+            float: left;
+            width: 60px;
+            height: 60px;
+            margin-top: 10px;
+
+        }
+        .singer_list__pic {
+
+            display: block;
+            width: 100%;
+            min-height: 50px;
+            border-radius: 50%;
+
+        }
+        .singer_list__pic {
+
+            height: 100%;
+            object-fit: cover;
+
+        }
+
+        .singer_list__title_txt {
+
+            float: left;
+            max-width: 310px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 14px;
+
+        }
+        .singer_list__playlist {
+
+            width: 22%;
+            padding-left: 20px;
+
+        }
+        .singer_list__count, .singer_list__other, .singer_list__playlist, .singer_list__title {
+
+            display: table-cell;
+            height: 80px;
+            vertical-align: middle;
+            box-sizing: border-box;
+
+        }
+        .singer_list__count {
+
+            width: 22%;
+            padding-left: 15px;
+
+        }
+        .singer_list__other {
+
+            width: 122px;
+
+        }
+        .singer_list__btn_focus {
+
+            display: block;
+            width: 122px;
+            text-align: center;
+            margin-right: 20px;
+
+        }
+        .mod_btn {
+
+            border: 1px solid #c9c9c9;
+            color: #000;
+
+        }
+        .mod_btn, .mod_btn_green {
+
+            border-radius: 2px;
+            font-size: 14px;
+            margin-right: 6px;
+            padding: 0 23px;
+            height: 38px;
+            line-height: 38px;
+            display: inline-block;
+            white-space: nowrap;
+            box-sizing: border-box;
+            overflow: hidden;
+
+        }
+        .singer_list__item.even {
+
+            background-color: #fbfbfd;
+
+        }
+    </style>
+</head>
+<body id="body" >
+<div class="container-fluid">
+    <!-- 页头 -->
+    <div class="row" style="height: 60px;min-height: 60px;background: #333333;"></div>
+    <!-- 搜索框 -->
+    <div class="mod_search" style="background-image:url(../image/Search_image/search_bg.jpg);" role="search">
+        <div class="mod_search_input" id="search_group">
+            <form th:action="@{/Search/User }" method="get">
+                <input  class="search_input__input" autocomplete="off" id="search_input" name="words" onClick="search_click_keydown()" oninput="search_click_keydown()" aria-label="请输入搜索内容" th:value="${words}" placeholder="搜索关键字" type="text">
+                <input class="search_input__btn" type="submit" value="搜索">
+            </form>
+        </div>
+        <div class="mod_search_tips">
+            热门搜索：
+            <a href="javascript:;" class="search_tips__item js_smartbox_search" data-name="流浪">流浪</a>
+            <a href="javascript:;" class="search_tips__item js_smartbox_search" data-name="去年夏天">去年夏天</a>
+            <a href="javascript:;" class="search_tips__item js_smartbox_search" data-name="周杰伦">周杰伦</a>
+            <a href="javascript:;" class="search_tips__item js_smartbox_search" data-name="年少有为">年少有为</a>
+            <a href="javascript:;" class="search_tips__item js_smartbox_search" data-name="不染">不染</a>
+        </div>
+        <div class="js_smartbox" id="smartBox">
+            <div class="mod_search_other" id="search_other" style="">
+                <div class="search_history">
+                    <dl class="search_history__list">
+                        <dt class="search_history__tit">搜索历史<a href="javascript:;" class="search_history__clear js_smartbox_delete_all"><i class="icon_history_clear"></i><span class="icon_txt">清空</span></a></dt>
+                        <dd class="search_history__item">
+                            <a href="javascript:;" class="search_history__link js_smartbox_search js_left" data-name="1">1</a>
+                            <a href="javascript:;" class="search_history__delete js_smartbox_delete" data-name="1" title="删除"><i class="search_history__icon_delete"></i><span class="icon_txt">删除</span></a>
+                        </dd>
+                        <dd class="search_history__item">
+                            <a href="javascript:;" class="search_history__link js_smartbox_search js_left" >我难过</a>
+                            <a href="javascript:;" class="search_history__delete js_smartbox_delete" ><i class="search_history__icon_delete"></i><span class="icon_txt">删除</span></a>
+                        </dd>
+                        <dd class="search_history__item">
+                            <a href="javascript:;" class="search_history__link js_smartbox_search js_left" >5564</a>
+                            <a href="javascript:;" class="search_history__delete js_smartbox_delete" ><i class="search_history__icon_delete"></i><span class="icon_txt">删除</span></a>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="mod_search_result" id="search_result" style="">
+                <!--单曲区域_S-->
+                <div class="search_result__sort">
+                    <h4 class="search_result__tit"><i class="search_result__icon_song"></i>单曲</h4>
+                    <ul class="search_result__list">
+                        <li>
+                            <a href="javascript:;" class="search_result__link js_smartbox_song" data-docid="212628854" data-id="212628854" data-mid="002WqezQ4dmIeT" data-name="123我爱你">
+                                <span class="search_result__name"><span class="search_result__keyword">1</span>23我爱你</span>-
+                                <span class="search_result__singer">新乐尘符</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="search_result__link js_smartbox_song" data-docid="102300586" data-id="102300586" data-mid="000HWyhv4UJpLq" data-name="17岁">
+                                <span class="search_result__name"><span class="search_result__keyword">1</span>7岁</span>-
+                                <span class="search_result__singer">刘德华</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="search_result__link js_smartbox_song" data-docid="102414455" data-id="102414455" data-mid="002mwwCs3vpyaH" data-name="《16个夏天》电视剧片尾曲">
+                                <span class="search_result__name">《<span class="search_result__keyword">1</span>6个夏天》电视剧片尾曲</span>-
+                                <span class="search_result__singer">以后别做朋友</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="search_result__link js_smartbox_song" data-docid="214244141" data-id="214244141" data-mid="001duIhk2iQc7n" data-name="1도 없어">
+                                <span class="search_result__name"><span class="search_result__keyword">1</span>도 없어</span>-
+                                <span class="search_result__singer">Apink</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+                <!--歌手区域_S-->
+                <div class="search_result__sort">
+                    <h4 class="search_result__tit"><i class="search_result__icon_singer"></i>歌手</h4>
+                    <ul class="search_result__list">
+                        <li>
+                            <a href="javascript:;" class="search_result__link js_smartbox_singer" data-docid="1560201" data-id="1560201" data-mid="004Lhsnb1ar9CW" data-name="10叔">
+                                <span class="search_result__name"><span class="search_result__keyword">1</span>0叔</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="search_result__link js_smartbox_singer" data-docid="1567549" data-id="1567549" data-mid="001mBG2s1zZR0m" data-name="10点莉">
+                                <span class="search_result__name"><span class="search_result__keyword">1</span>0点莉</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!--专辑区域_S-->
+                <div class="search_result__sort">
+                    <h4 class="search_result__tit"><i class="search_result__icon_album"></i>专辑</h4>
+                    <ul class="search_result__list">
+                        <li>
+                            <a href="javascript:;" class="search_result__link js_smartbox_album" data-docid="3835228" data-id="3835228" data-mid="001qozdT3ejtYD" data-name="123我爱你">
+                                <span class="search_result__name"><span class="search_result__keyword">1</span>23我爱你</span>
+                                <span class="search_result__singer">新乐尘符</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="search_result__link js_smartbox_album" data-docid="4243104" data-id="4243104" data-mid="002wdavM3BDAQ3" data-name="1">
+                                <span class="search_result__name"><span class="search_result__keyword">1</span></span>
+                                <span class="search_result__singer">蔡徐坤</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!--MV区域_S-->
+                <div class="search_result__sort">
+                    <h4 class="search_result__tit"><i class="search_result__icon_mv"></i>MV</h4>
+                    <ul class="search_result__list">
+                        <li>
+                            <a href="javascript:;" class="search_result__link js_smartbox_mv" data-docid="1483175" data-id="1483175" data-mid="003PZP4j19gep4" data-name="1826+开始·想象TFBOYS五周年演唱会" data-vid="k00277lmuka">
+                                <span class="search_result__name"><span class="search_result__keyword">1</span>826+开始·想象TFBOYS五周年演唱会</span>-
+                                <span class="search_result__singer">TFBOYS</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="search_result__link js_smartbox_mv" data-docid="1476077" data-id="1476077" data-mid="0033VkWP22k93L" data-name="1도 없어" data-vid="x0026sjhu82">
+                                <span class="search_result__name"><span class="search_result__keyword">1</span>도 없어</span>-
+                                <span class="search_result__singer">Apink</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 主体 -->
+    <div class="main main--profile" style="">
+        <div class="mod_tab" role="nav">
+            <a class= "mod_tab__item"id="song_tab" th:href="@{'/Search/Song?words='+${words}}"  >歌曲 </a>
+            <a class="mod_tab__item" id="songlist_tab" th:href="@{'/Search/SongList?words='+${words}}" >歌单 </a>
+            <a class="mod_tab__item" id="album_tab" th:href="@{'/Search/Album?words='+${words}}" >专辑</a>
+            <a class="mod_tab__item mod_tab__current" th:href="@{'/Search/User?words='+${words}}">视频</a>
+        </div>
+        <div class="mod_singer_list_text">
+            <ul class="singer_list__list">
+                <li class="singer_list__item" th:each="user,iterStat:${users}">
+                    <h4 class="singer_list__title">
+                        <div class="singer_list__cover" style="visibility: visible;"><a href="javascript:;" class="js_user" >
+                            <img data-original="//thirdqq.qlogo.cn/g?b=sdk&amp;k=DVexvF7VXQk58E7JsKl0PQ&amp;s=140&amp;t=1500472351" src="//thirdqq.qlogo.cn/g?b=sdk&amp;k=DVexvF7VXQk58E7JsKl0PQ&amp;s=140&amp;t=1500472351" onerror="this.src='//y.gtimg.cn/mediastyle/global/img/person_300.png?max_age=31536000';this.onerror=null;" alt="1" class="singer_list__pic" style="display: block; visibility: visible;">
+                        </a></div>
+                        <span class="singer_list__title_txt"><a th:href="@{'/User?userid='+${user.getUserid()}}" class="js_user" th:text="${user.getUsername()}"></a></span>
+                        <i class="singer_list__icon singer_list__icon_fan sprite" title="好友"></i>
+                    </h4>
+                    <div class="singer_list__playlist">
+                        歌单:[[${songlistnum.get(iterStat.index)}]]
+                    </div>
+                    <div class="singer_list__count js_num_follow" data-num="0">
+                        粉丝：[[${fansnum.get(iterStat.index)}]]
+                    </div>
+                    <div class="singer_list__other">
+
+                        <a href="javascript:;" class="mod_btn singer_list__btn_focus js_focus_user" >
+                            <i class="mod_btn__icon_new" th:id="'focus'+${iterStat.index}" th:onclick="FollowUser([[${user.getUserid()}]],[[${iterStat.index}]]);" th:text="${isfollowed.get(iterStat.index)}?'已关注':'未关注'"></i>
+                        </a>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+        <div class="mod_operate_menu" id="popwindow" style="display:none;position:absolute;left:697px;top:669px;" >
+
+        </div>
+    </div>
+    <!--悬浮框-->
+    <div class="mod_popup_mask" id="mask" style="display:none;"></div>
+    <div id="newsonglist_div" class="mod_popup popup_new_list" data-aria="popup" style="display:none;position:fixed;z-index:100000;margin:10px;width:520px;height:auto;left: 507px;top:242px;">
+        <div class="popup__hd">
+            <h2 class="popup__tit">创建新歌单</h2>
+            <a href="javascript:;" class="popup__close" title="关闭"><i class="popup__icon_close"></i><i class="icon_txt">关闭</i></a>
+        </div>
+
+        <div class="popup__bd " id="dialogbox">
+            <label class="form__label">歌单名</label> <div class="mod_form_txt"> <input type="text" value="" class="form_txt__input" id="new_playlist_fav"><span class="form_txt__tips" id="name_leftnum_fav">20</span></div>
+        </div>
+
+        <div class="popup__ft">
+            <button onclick="close_newsonglist_div()" class="mod_btn upload_btns__item js-button1">取消</button>
+            <button onclick="create_newsonglist()" class="mod_btn_blue upload_btns__item js-button2">确定</button>
+        </div>
+    </div>
+    <!--footer-->
+    <div class="footer">
+        <div class="container">
+            <div class="agileits_w3layouts_footer_grids">
+                <div class="col-md-4 agileits_w3layouts_footer_grid">
+                    <h3>联系我们</h3>
+                    <ul>
+                        <li><span>官方电话 :</span> (+86) 62302 232</li><br>
+
+                    </ul>
+                </div>
+                <div class="col-md-4 agileits_w3layouts_footer_grid">
+                    <h3>地址</h3>
+                    <p>曹安路4800号, 嘉定区 <i>上海</i></p>
+                </div>
+                <div class="col-md-4 agileits_w3layouts_footer_grid">
+                    <h3>发送消息</h3>
+                    <ul>
+                        <li><span>Email :</span> <a style="color:#337ab7;" href="mailto:db_design@example.com">db_design@example.com</a></li>
+                        <li><span>咨询 :</span> <a style="color:#337ab7;" href="mailto:info@enquiry.com">info@enquiry.com</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wthree_copy_right">
+        <div class="container">
+            <p>© 2018 Musicality. All rights reserved | Design by <a>SEdesign</a></p>
+        </div>
+    </div>
+    <!--disk导航-->
+    <nav class="top-right">
+        <a th:href="@{'/findMusic'}" class="disc l1" onMouseOver="disc1_over()" onMouseOut="disc1_out()">
+            <div id="disc1" class="">发现音乐</div>
+        </a>
+        <a th:href="@{'/profile/like_song'}" class="disc l2" onMouseOver="disc2_over()" onMouseOut="disc2_out()">
+            <div id="disc2" class="">我的音乐</div>
+        </a>
+        <a th:href="@{'/myPage'}" class="disc l3" onMouseOver="disc3_over()" onMouseOut="disc3_out()">
+            <div id="disc3" class="">个人主页</div>
+        </a>
+        <a th:href="@{'/Exit'}" class="disc l4" onMouseOver="disc4_over()" onMouseOut="disc4_out()">
+            <div id="disc4" class="">退出登录</div>
+        </a>
+        <a class="disc l5 toggle">
+            菜单
+        </a>
+    </nav>
+    <script>
+        toggle = document.querySelectorAll(".toggle")[0];
+        nav = document.querySelectorAll("nav")[0];
+        toggle_open_text = '菜单';
+        toggle_close_text = '关闭';
+        toggle.addEventListener('click', function() {
+            nav.classList.toggle('open');
+            if (nav.classList.contains('open')) {
+                toggle.innerHTML = toggle_close_text;
+            } else {
+                toggle.innerHTML = toggle_open_text;
+            }
+        }, false);
+    </script>
+</div>
+</body>
+</html>
+
