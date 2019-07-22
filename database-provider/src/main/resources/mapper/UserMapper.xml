@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.UserMapper" >
+  <resultMap id="UserResultMap" type="com.example.demo.entity.User" >
+    <id column="USERID" property="userid" jdbcType="VARCHAR" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="USERPASSWORD" property="userpassword" jdbcType="VARCHAR" />
+    <result column="USERIMAGE" property="userimage" jdbcType="VARCHAR" />
+    <result column="USERSEX" property="usersex" jdbcType="VARCHAR" />
+    <result column="ISVIP" property="isvip" jdbcType="CHAR" />
+    <result column="USERBALANCE" property="userbalance" jdbcType="NUMERIC" />
+    <result column="ISBANNED" property="isbanned" jdbcType="CHAR" />
+    <result column="COUNT" property="count" jdbcType="INTEGER" />
+  </resultMap>
+
+  <parameterMap type="java.util.Map" id="addUserMap">
+    <parameter property="username" mode="IN" jdbcType="VARCHAR"/>
+    <parameter property="userpassword" mode="IN" jdbcType="VARCHAR"/>
+    <parameter property="userimage" mode="IN" jdbcType="VARCHAR"/>
+    <parameter property="usersex" mode="IN" jdbcType="CHAR"/>
+    <parameter property="result" mode="OUT" jdbcType="VARCHAR"/>
+  </parameterMap>
+  <insert id="addUser" parameterMap="addUserMap" statementType="CALLABLE">
+    call USER_PKG.ADD_USER(?,?,?,?,?)
+  </insert>
+  <select id="isUserExist" parameterType="java.util.Map" resultType="java.util.Map" statementType="CALLABLE">
+    call USER_PKG.IS_USER_EXIST(#{userid,jdbcType=VARCHAR,mode=IN},#{userpassword,jdbcType=VARCHAR,mode=IN},#{result,jdbcType=VARCHAR,mode=OUT})
+  </select>
+  <select id="isUserBanned" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call USER_PKG.IS_USER_BANNED(#{userid,jdbcType=VARCHAR,mode=IN},#{isbanned,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="getUserById" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call USER_PKG.GET_USER(#{userid,mode=IN,jdbcType=VARCHAR},#{result,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=UserResultMap})
+  </select>
+  <select id="getFansByUserId" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call USER_PKG.GET_FANS_LIST(#{userid,mode=IN,jdbcType=VARCHAR},#{result,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=UserResultMap})
+  </select>
+  <select id="getFriendsByUserId" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call USER_PKG.GET_FRIEND_LIST(#{userid,mode=IN,jdbcType=VARCHAR},#{result,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=UserResultMap})
+  </select>
+    <select id="getUserByNamePart" parameterType="java.util.HashMap" statementType="CALLABLE">
+        call USER_PKG.SEARCH_USER_BY_NAME_PART(#{username,mode=IN,jdbcType=VARCHAR},#{users,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=UserResultMap})
+    </select>
+    <select id="getUserByName" parameterType="java.util.HashMap" statementType="CALLABLE">
+        call USER_PKG.SEARCH_USER_BY_NAME_FULL(#{username,mode=IN,jdbcType=VARCHAR},#{users,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=UserResultMap})
+    </select>
+    <select id="getAllUser" parameterType="java.util.HashMap" statementType="CALLABLE">
+        call USER_PKG.VIEW_ALL_USER(#{users,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=UserResultMap})
+    </select>
+    <select id="updateUserPwd" statementType="CALLABLE">
+        call USER_PKG.CHANGE_USER_PWD(#{userid,mode=IN,jdbcType=VARCHAR},#{pwd,mode=IN,jdbcType=VARCHAR},#{succ,mode=OUT,jdbcType=VARCHAR})
+    </select>
+    <select id="updateUserImg" statementType="CALLABLE">
+        call USER_PKG.CHANGE_USER_IMG(#{userid,mode=IN,jdbcType=VARCHAR},#{userimage,mode=IN,jdbcType=VARCHAR},#{succ,mode=OUT,jdbcType=VARCHAR})
+    </select>
+    <select id="updateUserName" statementType="CALLABLE">
+        call USER_PKG.CHANGE_USER_NAME(#{userid,mode=IN,jdbcType=VARCHAR},#{username,mode=IN,jdbcType=VARCHAR},#{succ,mode=OUT,jdbcType=VARCHAR})
+    </select>
+  <select id="isFriendExist" parameterType="java.util.Map" resultType="java.util.Map" statementType="CALLABLE">
+  call USER_PKG.IS_FRIEND_EXIST(#{userid,jdbcType=VARCHAR,mode=IN},#{friendid,jdbcType=VARCHAR,mode=IN},#{result,jdbcType=VARCHAR,mode=OUT})
+  </select>
+  <select id="addFriend" parameterType="java.util.HashMap" statementType="CALLABLE">
+  call USER_PKG.ADD_FRIEND(#{userid,jdbcType=VARCHAR,mode=IN},#{friendid,jdbcType=VARCHAR,mode=IN},#{succ,jdbcType=VARCHAR,mode=OUT})
+  </select>
+  <select id="deleteFriend" parameterType="java.util.HashMap" statementType="CALLABLE">
+  call USER_PKG.DELETE_FRIEND(#{userid,jdbcType=VARCHAR,mode=IN},#{friendid,jdbcType=VARCHAR,mode=IN},#{succ,jdbcType=VARCHAR,mode=OUT})
+  </select>
+  <select id="setVIP" parameterType="java.util.HashMap" statementType="CALLABLE">
+  call USER_PKG.SET_VIP(#{userid,jdbcType=VARCHAR,mode=IN},#{succ,jdbcType=VARCHAR,mode=OUT})
+  </select>
+</mapper>

@@ -1,0 +1,26 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8080/eureka/
+server:
+  port: 8083
+
+spring:
+  application:
+    name: database-provider
+
+  datasource:
+    url: jdbc:oracle:thin:@111.230.63.192:1521:orcl
+    username: music
+    password: Music2019
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  config-location: classpath:mybatis-config.xml
+  type-aliases-package: com.example.demo.entity
+

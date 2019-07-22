@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.BuyMapper" >
+  <resultMap id="BuyResultMap" type="com.example.demo.entity.Buy" >
+    <id column="MUSICID" property="musicid" jdbcType="VARCHAR" />
+    <id column="USERID" property="userid" jdbcType="VARCHAR" />
+    <result column="BUYTIME" property="buytime" jdbcType="TIMESTAMP" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+   <select id="moneyChange" statementType="CALLABLE">
+    call USER_PKG.money_change(#{op,mode=IN,jdbcType=INTEGER},#{money,mode=IN,jdbcType=INTEGER},#{userid,mode=IN,jdbcType=VARCHAR},#{succ,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="addBuy" statementType="CALLABLE">
+    call USER_PKG.add_buy(#{userid,mode=IN,jdbcType=VARCHAR},#{musicid,mode=IN,jdbcType=VARCHAR},#{type,mode=IN,jdbcType=VARCHAR},#{succ,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="getBuyRecord" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call USER_PKG.get_buy_record(#{userid,mode=IN,jdbcType=VARCHAR},#{buyrecord,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=BuyResultMap})
+  </select>
+  <select id="getBoughtSongs" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call USER_PKG.get_buy_songs(#{userid,mode=IN,jdbcType=VARCHAR},#{songs,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongResultMap})
+  </select>
+  <select id="getBoughtAlbums" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call USER_PKG.get_buy_albums(#{userid,mode=IN,jdbcType=VARCHAR},#{albums,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=AlbumResultMap})
+  </select>
+  <select id="isMusicBought" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONG_PKG.is_song_bought(#{musicid,mode=IN,jdbcType=VARCHAR},#{userid,mode=IN,jdbcType=VARCHAR},#{bought,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  
+</mapper>

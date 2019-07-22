@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.AlbumMapper">
+  <resultMap id="AlbumResultMap" type="com.example.demo.entity.Album">
+    <id column="ALBUMID" jdbcType="VARCHAR" property="albumid" />
+    <result column="ALBUMNAME" jdbcType="VARCHAR" property="albumname" />
+    <result column="SINGERID" jdbcType="VARCHAR" property="singerid" />
+    <result column="ALBUMIMAGE" jdbcType="VARCHAR" property="albumimage" />
+    <result column="ALBUMAGE" jdbcType="VARCHAR" property="albumage" />
+    <result column="LANGUAGE" jdbcType="VARCHAR" property="language" />
+    <result column="COMPANY" jdbcType="VARCHAR" property="company" />
+    <result column="ADMINID" property="adminid" jdbcType="VARCHAR" />
+    <result column="FREE" property="free" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="getAlbumById" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call ALBUM_PKG.search_album_by_id(#{albumid,mode=IN,jdbcType=VARCHAR},#{albums,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=AlbumResultMap})
+  </select>
+  <select id="getAlbumByNamePart" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call ALBUM_PKG.search_album_by_name_part(#{albumname,mode=IN,jdbcType=VARCHAR},#{albums,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=AlbumResultMap})
+  </select>
+  <select id="getAlbumByName" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call ALBUM_PKG.search_album_by_name_full(#{albumname,mode=IN,jdbcType=VARCHAR},#{albums,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=AlbumResultMap})
+  </select>
+  <select id="getAlbumBySingerId" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call ALBUM_PKG.search_album_by_singer_id(#{singerid,mode=IN,jdbcType=VARCHAR},#{albums,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=AlbumResultMap})
+  </select>
+  <select id="getAllAlbum" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call ALBUM_PKG.get_all_album(#{albums,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=AlbumResultMap})
+  </select>
+  <insert id="addAlbum">
+    INSERT INTO ALBUM (ALBUMID, ALBUMNAME, SINGERID, ALBUMIMAGE, ALBUMAGE, LANGUAGE, COMPANY, ADMINID, FREE)
+    VALUES (#{album.albumid},#{album.albumname},#{album.singerid},#{album.albumimage},#{album.albumage},#{album.language},#{album.company},#{album.adminid},#{album.free})
+  </insert>
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.HistoryMapper">
+    <resultMap id="historyMap" type="com.example.demo.entity.History">
+        <result column="USERID" property="userID" />
+        <result column="SINGERID" property="singerID" />
+        <result column="LISTENTIME" property="num" />
+    </resultMap>
+    <insert id="addUserHistory">
+        INSERT INTO HISTORY(USERID, SINGERID, LISTENTIME)
+        VALUES (#{userID},#{singerID},1)
+    </insert>
+    <select id="getAllHistory" resultMap="historyMap">
+        SELECT *
+        FROM HISTORY
+    </select>
+    <select id="getHistoryByUserAndSinger" resultMap="historyMap">
+        SELECT *
+        FROM HISTORY
+        WHERE USERID=#{userID} AND SINGERID=#{singerID}
+    </select>
+    <update id="updateHistory">
+        UPDATE HISTORY
+        SET LISTENTIME=LISTENTIME+1
+        WHERE USERID=#{userID} and SINGERID=#{singerID}
+    </update>
+</mapper>

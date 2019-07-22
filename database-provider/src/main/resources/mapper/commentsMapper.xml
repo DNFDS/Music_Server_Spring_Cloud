@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.CommentsMapper" >
+  <resultMap id="commentsResultMap" type="com.example.demo.entity.comments" >
+    <id column="USERID" property="userid" jdbcType="VARCHAR" />
+    <id column="SONGID" property="songid" jdbcType="VARCHAR" />
+    <id column="COMMENTTIME" property="commenttime" jdbcType="CHAR" />
+    <result column="COMMENTTEXT" property="commenttext" jdbcType="VARCHAR" />
+    <result column="READ" property="read" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="addComment" statementType="CALLABLE">
+    call USER_PKG.add_comment(#{userid,mode=IN,jdbcType=VARCHAR},#{songid,mode=IN,jdbcType=VARCHAR},#{commenttext,mode=IN,jdbcType=VARCHAR},#{succ,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="getComment" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call USER_PKG.get_comments(#{songid,mode=IN,jdbcType=VARCHAR},#{comments,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=commentsResultMap})
+  </select>
+</mapper>

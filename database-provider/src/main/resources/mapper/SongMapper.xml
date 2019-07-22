@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.SongMapper" >
+  <resultMap id="SongResultMap" type="com.example.demo.entity.Song" >
+    <id column="SONGID" property="songid" jdbcType="VARCHAR" />
+    <result column="SONGPATH" property="songpath" jdbcType="VARCHAR" />
+    <result column="SONGNAME" property="songname" jdbcType="VARCHAR" />
+    <result column="WRITERNAME" property="writername" jdbcType="VARCHAR" />
+    <result column="PRODUCERNAME" property="producername" jdbcType="VARCHAR" />
+    <result column="SONGIMAGE" property="songimage" jdbcType="VARCHAR" />
+    <result column="LENGTH" property="length" jdbcType="VARCHAR" />
+    <result column="PLAYTIMES" property="playtimes" jdbcType="NUMERIC" />
+    <result column="ALBUMID" property="albumid" jdbcType="VARCHAR" />
+    <result column="SONGSCHOOL" property="songschool" jdbcType="VARCHAR" />
+    <result column="SONGAGE" property="songage" jdbcType="VARCHAR" />
+    <result column="ADMINID" property="adminid" jdbcType="VARCHAR" />
+    <result column="FREE" property="free" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getSongById" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONG_PKG.search_song_by_song_id(#{songid,mode=IN,jdbcType=VARCHAR},#{songs,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongResultMap})
+  </select>
+  <select id="getSongByNamePart" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONG_PKG.search_song_by_name_part(#{songname,mode=IN,jdbcType=VARCHAR},#{songs,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongResultMap})
+  </select>
+  <select id="getSongByName" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONG_PKG.search_song_by_name_full(#{songname,mode=IN,jdbcType=VARCHAR},#{songs,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongResultMap})
+  </select>
+  <select id="getSongBySingerId" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONG_PKG.search_song_by_singer_id(#{singerid,mode=IN,jdbcType=VARCHAR},#{songs,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongResultMap})
+  </select>
+  <select id="getSongByAlbumId" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONG_PKG.SEARCH_SONG_BY_ALBUM_ID(#{albumid,mode=IN,jdbcType=VARCHAR},#{songs,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongResultMap})
+  </select>
+  <select id="getSongSinger" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONG_PKG.get_song_singer(#{songid,mode=IN,jdbcType=VARCHAR},#{singers,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SingerResultMap})
+  </select>
+  <select id="getAllSongDesc" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONG_PKG.view_all_song_desc(#{songs,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongResultMap})
+  </select>
+  <select id="songPlaytimesPlus" statementType="CALLABLE">
+    call SONG_PKG.song_playtimes_plus(#{singerid,mode=IN,jdbcType=VARCHAR},#{succ,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="getPushSong" parameterType="java.util.HashMap" statementType="CALLABLE">
+  call PUSHSONG_PKG.pushsong(#{userid,mode=IN,jdbcType=VARCHAR},#{songs,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongResultMap})
+  </select>
+  <insert id="addSong" useGeneratedKeys="true" keyProperty="songid">
+INSERT INTO SONG
+(SONGID,SONGPATH,SONGNAME,SONGIMAGE,LENGTH,PLAYTIMES,ALBUMID,SONGSCHOOL,SONGAGE,COMPANY,LANGUAGE,SAVENUM,ADMINID,FREE,LYRIC,SINGER,SINGERID)
+VALUES
+(#{song.songid},#{song.songpath},#{song.songname},#{song.songimage},#{song.length},#{song.playtimes},#{song.albumid},#{song.songschool},#{song.songage},#{song.company},#{song.language},#{song.savenum},#{song.adminid},#{song.free},#{song.lyric},#{song.singer},#{song.singerID})
+  </insert>
+</mapper>

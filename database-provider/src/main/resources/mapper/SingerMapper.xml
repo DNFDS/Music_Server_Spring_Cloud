@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.SingerMapper" >
+  <resultMap id="SingerResultMap" type="com.example.demo.entity.Singer" >
+    <id column="SINGERID" property="singerid" jdbcType="VARCHAR" />
+    <result column="SINGERNAME" property="singername" jdbcType="VARCHAR" />
+    <result column="SINGERIMAGE" property="singerimage" jdbcType="VARCHAR" />
+    <result column="SINGERSEX" property="singersex" jdbcType="VARCHAR" />
+    <result column="REGION" property="region" jdbcType="VARCHAR" />
+    <result column="INTRODUCTION" property="introduction" jdbcType="VARCHAR" />
+    <result column="ADMINID" property="adminid" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getSingerById" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SINGER_PKG.search_singer_by_id(#{singerid,mode=IN,jdbcType=VARCHAR},#{singers,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SingerResultMap})
+  </select>
+  <select id="getSingerByName_part" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SINGER_PKG.search_singer_by_name_part(#{singername,mode=IN,jdbcType=VARCHAR},#{singers,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SingerResultMap})
+  </select>
+  <select id="getSingerByName" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SINGER_PKG.search_singer_by_name_full(#{singername,mode=IN,jdbcType=VARCHAR},#{singers,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SingerResultMap})
+  </select>
+  <select id="getAllSinger" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SINGER_PKG.view_all_singer(#{singers,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SingerResultMap})
+  </select>
+  <select id="getSingerFansNum" statementType="CALLABLE">
+  call SINGER_PKG.get_singer_fans_num(#{singerid,jdbcType=VARCHAR,mode=IN},#{fansnum,mode=OUT,jdbcType=INTEGER})
+  </select>
+  <select id="likeSinger" statementType="CALLABLE">
+  call USER_PKG.like_singer(#{userid,jdbcType=VARCHAR,mode=IN},#{singerid,jdbcType=VARCHAR,mode=IN},#{succ,jdbcType=VARCHAR,mode=OUT})
+  </select>
+  <select id="unlikeSinger" statementType="CALLABLE">
+  call USER_PKG.unlike_singer(#{userid,jdbcType=VARCHAR,mode=IN},#{singerid,jdbcType=VARCHAR,mode=IN},#{succ,jdbcType=VARCHAR,mode=OUT})
+  </select>
+  <select id="isUserLikeSinger" statementType="CALLABLE">
+  call SINGER_PKG.is_user_like_singer(#{userid,jdbcType=VARCHAR,mode=IN},#{singerid,jdbcType=VARCHAR,mode=IN},#{islike,jdbcType=VARCHAR,mode=OUT})
+  </select>
+  <select id="getSingerUserLike" statementType="CALLABLE">
+  call SINGER_PKG.get_singer_user_like(#{userid,jdbcType=VARCHAR,mode=IN},#{singers,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SingerResultMap})
+  </select>
+  <insert id="addSinger">
+    INSERT INTO SINGER(SINGERID, SINGERNAME, SINGERIMAGE, SINGERSEX, REGION, INTRODUCTION, ADMINID)
+    VALUES (#{singer.singerid},#{singer.singername},#{singer.singerimage},#{singer.singersex},#{singer.region},#{singer.introduction},#{singer.adminid})
+  </insert>
+</mapper>

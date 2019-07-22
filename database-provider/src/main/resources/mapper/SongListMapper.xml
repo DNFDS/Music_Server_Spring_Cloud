@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.SongListMapper">
+  <resultMap id="SongListResultMap" type="com.example.demo.entity.SongList" >
+    <id column="SONGLISTID" property="songlistid" jdbcType="VARCHAR" />
+    <result column="SONGLISTNAME" property="songlistname" jdbcType="VARCHAR" />
+    <result column="SONGLISTIMAGE" property="songlistimage" jdbcType="VARCHAR" />
+    <result column="ISPRIVATE" property="isprivate" jdbcType="CHAR" />
+    <result column="USERID" property="userid" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="getSongListCreatedByUserId" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONGLIST_PKG.VIEW_SONGLIST_CREATED(#{userid,mode=IN,jdbcType=VARCHAR},#{createdsonglist,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongListResultMap})
+  </select>
+  <select id="getSongListKeepedByUserId" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONGLIST_PKG.VIEW_SONGLIST_SAVED(#{userid,mode=IN,jdbcType=VARCHAR},#{keepedsonglist,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongListResultMap})
+  </select>
+  <select id="getSongsInSongList" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONGLIST_PKG.VIEW_SONG_IN_SONGLIST(#{songlistid,mode=IN,jdbcType=VARCHAR},#{songs,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongResultMap})
+  </select>
+  <select id="getSongListById" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONGLIST_PKG.search_songlist_by_id(#{songlistid,mode=IN,jdbcType=VARCHAR},#{songlist,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongListResultMap})
+  </select>
+  <select id="getSongListSavedNum" statementType="CALLABLE">
+    call SONGLIST_PKG.get_songlist_saved_num(#{songlistid,mode=IN,jdbcType=VARCHAR},#{savednum,mode=OUT,jdbcType=INTEGER})
+  </select>
+  <select id="getSongListByNamePart" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONGLIST_PKG.search_songlist_by_name_part(#{songlistname,mode=IN,jdbcType=VARCHAR},#{songlists,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongListResultMap})
+  </select>
+  <select id="getSongListByName" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONGLIST_PKG.search_songlist_by_name_full(#{songlistname,mode=IN,jdbcType=VARCHAR},#{songlists,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongListResultMap})
+  </select>
+  <select id="getAllSongList" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONGLIST_PKG.view_all_songlist(#{songlists,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongListResultMap})
+  </select>
+  <select id="createSongList" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONGLIST_PKG.ADD_SONGLIST(#{songlistname,mode=IN,jdbcType=VARCHAR},#{songlistimage,mode=IN,jdbcType=VARCHAR},#{isprivate,mode=IN,jdbcType=VARCHAR},#{userid,mode=IN,jdbcType=VARCHAR},#{songlistid,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="addSongToSongList" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SONGLIST_PKG.ADD_SONG_TO_SONGLIST(#{songlistid,mode=IN,jdbcType=VARCHAR},#{songid,mode=IN,jdbcType=VARCHAR},#{succ,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="deleteSongList" statementType="CALLABLE">
+    call SONGLIST_PKG.delete_songlist(#{songlistid,mode=IN,jdbcType=VARCHAR},#{succ,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="keepSongList" statementType="CALLABLE">
+    call SONGLIST_PKG.add_savesonglist(#{songlistid,mode=IN,jdbcType=VARCHAR},#{userid,mode=IN,jdbcType=VARCHAR},#{succ,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="unKeepSongList" statementType="CALLABLE">
+    call SONGLIST_PKG.delete_savesonglist(#{songlistid,mode=IN,jdbcType=VARCHAR},#{userid,mode=IN,jdbcType=VARCHAR},#{succ,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="deleteSongFromSongList" statementType="CALLABLE">
+    call SONGLIST_PKG.delete_song_to_songlist(#{songlistid,mode=IN,jdbcType=VARCHAR},#{songid,mode=IN,jdbcType=VARCHAR},#{succ,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="updateSongListName" statementType="CALLABLE">
+    call SONGLIST_PKG.update_songlist_name(#{songlistid,mode=IN,jdbcType=VARCHAR},#{songlistname,mode=IN,jdbcType=VARCHAR},#{succ,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="updateSongListImage" statementType="CALLABLE">
+    call SONGLIST_PKG.update_songlist_image(#{songlistid,mode=IN,jdbcType=VARCHAR},#{songlistimage,mode=IN,jdbcType=VARCHAR},#{succ,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="updateIsPrivate" statementType="CALLABLE">
+    call SONGLIST_PKG.update_songlist_private(#{songlistid,mode=IN,jdbcType=VARCHAR},#{isprivate,mode=IN,jdbcType=VARCHAR},#{succ,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="getPushSonglist" parameterType="java.util.HashMap" statementType="CALLABLE">
+  call PUSHSONG_PKG.push_sl(#{userid,mode=IN,jdbcType=VARCHAR},#{songlists,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=SongListResultMap})
+  </select>
+  <select id="isSonglistSaved" parameterType="java.util.HashMap" statementType="CALLABLE">
+  call SONGLIST_PKG.is_songlist_saved(#{userid,mode=IN,jdbcType=VARCHAR},#{songlistid,mode=IN,jdbcType=VARCHAR},#{saved,mode=OUT,jdbcType=VARCHAR})
+  </select>
+</mapper>

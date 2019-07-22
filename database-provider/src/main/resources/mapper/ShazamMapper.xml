@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.HashMapper" >
+  <resultMap id="HashResultMap" type="com.example.demo.service.Shazam.hash.Hash" >
+    <id column="hash_id" property="hash_id" jdbcType="INTEGER" />
+    <id column="song_id" property="song_id" jdbcType="VARCHAR" />
+    <id column="offset" property="offset" jdbcType="INTEGER" />
+  </resultMap>
+   <select id="insertHash" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SHAZAM_PKG.insert_hash(#{hashid,mode=IN,jdbcType=INTEGER},#{songid,mode=IN,jdbcType=INTEGER},#{offset,mode=IN,jdbcType=INTEGER},#{succ,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="buildIndex" statementType="CALLABLE">
+    call SHAZAM_PKG.build_index()
+  </select>
+  <select id="getSongName" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SHAZAM_PKG.get_song_name(#{songid,mode=IN,jdbcType=VARCHAR},#{songname,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="selectHash" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SHAZAM_PKG.select_hash(#{hashid,mode=IN,jdbcType=INTEGER},#{hashs,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=HashResultMap})
+  </select>
+  <select id="insertSong" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call SHAZAM_PKG.insert_song(#{songname,mode=IN,jdbcType=VARCHAR},#{songid,mode=OUT,jdbcType=VARCHAR})
+  </select>
+</mapper>

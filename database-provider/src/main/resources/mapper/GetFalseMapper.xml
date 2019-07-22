@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.GetFalseMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.entity.GetFalse" >
+    <id column="USERID" property="userid" jdbcType="VARCHAR" />
+    <id column="SONGID" property="songid" jdbcType="VARCHAR" />
+    <id column="GETFALSETIME" property="getfalsetime" jdbcType="TIMESTAMP" />
+    <result column="FALSETEXT" property="falsetext" jdbcType="VARCHAR" />
+    <result column="ISSOLVED" property="issolved" jdbcType="CHAR" />
+    <result column="ADMINID" property="adminid" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="addFalse" statementType="CALLABLE">
+    call USER_PKG.add_false(#{userid,mode=IN,jdbcType=VARCHAR},#{songid,mode=IN,jdbcType=VARCHAR},#{falsetext,mode=IN,jdbcType=VARCHAR},#{succ,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="deleteFalse" statementType="CALLABLE">
+    call ADMIN_PKG.delete_false(#{userid,mode=IN,jdbcType=VARCHAR},#{songid,mode=IN,jdbcType=VARCHAR},#{falsetime,mode=IN,jdbcType=DATE},#{succ,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="handleFalse" statementType="CALLABLE">
+    call ADMIN_PKG.handle_false(#{userid,mode=IN,jdbcType=VARCHAR},#{songid,mode=IN,jdbcType=VARCHAR},#{adminid,mode=IN,jdbcType=VARCHAR},#{falsetime,mode=IN,jdbcType=DATE},#{succ,mode=OUT,jdbcType=VARCHAR})
+  </select>
+  <select id="getAllFalse" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call ADMIN_PKG.get_all_false(#{falses,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=GetFalseResultMap})
+  </select>
+  <select id="getFalse" parameterType="java.util.HashMap" statementType="CALLABLE">
+    call ADMIN_PKG.get_false(#{songid,mode=IN,jdbcType=VARCHAR},#{falses,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=GetFalseResultMap})
+  </select>
+</mapper>
