@@ -13,3 +13,4 @@
     Admin-consumer        实现管理员业务逻辑处理
     Cms-consumer          通过Redis集群实现单曲、歌手、歌单、专辑排行榜缓存
     Feign-api             微服务调用接口
+    UserLog		      通过自定义注解使用AOP生成数据库日志
