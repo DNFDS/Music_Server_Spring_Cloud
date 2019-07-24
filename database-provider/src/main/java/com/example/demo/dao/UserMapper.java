@@ -1,5 +1,7 @@
 package com.example.demo.dao;
 
+import com.example.demo.entity.UserLogEnity;
+
 import java.util.Map;
 
 public interface UserMapper {

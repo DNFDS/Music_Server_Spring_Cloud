@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.UserMapper" >
+  <resultMap id="UserLogResultMap" type="com.example.demo.entity.UserLog" >
+    <id column="USERLOGID" property="userlogid" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="classandmethod" property="classandmethod" jdbcType="VARCHAR" />
+    <result column="USERID" property="userid" jdbcType="VARCHAR" />
+    <result column="REQMSG" property="reqmsg" jdbcType="VARCHAR" />
+    <result column="RESMSG" property="resmsg" jdbcType="VARCHAR" />
+    <result column="ADDDATE" property="adddate" jdbcType="VARCHAR" />
+    <result column="ADDTIME" property="addtime" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <parameterMap type="java.util.Map" id="addUserMap">
+    <parameter property="type" mode="IN" jdbcType="VARCHAR"/>
+    <parameter property="classandmethod" mode="IN" jdbcType="VARCHAR"/>
+    <parameter property="userid" mode="IN" jdbcType="VARCHAR"/>
+    <parameter property="reqmsg" mode="IN" jdbcType="VARCHAR"/>
+    <parameter property="resmsg" mode="IN" jdbcType="VARCHAR"/>
+    <parameter property="adddate" mode="IN" jdbcType="VARCHAR"/>
+    <parameter property="addtime" mode="IN" jdbcType="VARCHAR"/>
+  </parameterMap>
+  <insert id="addUserLog" parameterMap="addUserLogMap" statementType="CALLABLE">
+    call USER_PKG.ADD_USER(?,?,?,?,?)
+  </insert>
+</mapper>

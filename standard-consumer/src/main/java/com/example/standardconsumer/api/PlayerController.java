@@ -1,5 +1,6 @@
 package com.example.standardconsumer.api;
 
+import com.example.standardconsumer.common.constants.UserLog;
 import com.example.standardconsumer.domain.Song;
 import com.example.standardconsumer.service.PlayerService;
 import org.apache.ibatis.annotations.Param;
@@ -16,15 +17,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@Controller
+@RestController
 @CrossOrigin
 @RequestMapping("/standard-consumer")
 public class PlayerController
 {
     @Autowired
     private PlayerService playerService;
+
+    @UserLog("PlayerController")
     @RequestMapping(value = "/play",method = RequestMethod.POST)
-    @ResponseBody
     public void play(HttpServletRequest request,@Param("mode")Integer mode)
     {
         if(request.getSession().getAttribute("playerLoaded").equals(0))//还没有播放器界面
@@ -32,7 +34,8 @@ public class PlayerController
             ModelAndView modelAndView=new ModelAndView("Player");
         }
     }
-    @ResponseBody
+
+    @UserLog("PlayerController")
     @RequestMapping(value = "/closePlayer",method = RequestMethod.GET)
     public void closePlayer(HttpServletRequest request)
     {
@@ -40,7 +43,8 @@ public class PlayerController
         request.getSession().removeAttribute("playList");
         request.getSession().removeAttribute("playList_mode");
     }
-    @ResponseBody
+
+    @UserLog("PlayerController")
     @RequestMapping(value = "/getPlayer",method = RequestMethod.GET)
     public ModelAndView getPlayer(HttpServletRequest request)
     {
@@ -59,7 +63,7 @@ public class PlayerController
         return modelAndView;
     }
 
-    @ResponseBody
+    @UserLog("PlayerController")
     @RequestMapping(value = "/addSongToList",method = RequestMethod.POST)
     public Map addSongToList(@Param("songID")Integer songID, HttpServletRequest request)
     {
@@ -92,7 +96,8 @@ public class PlayerController
         hashMap.put("newSong",songID);
         return hashMap;
     }
-    @ResponseBody
+
+    @UserLog("PlayerController")
     @RequestMapping(value = "/addAlbumToList",method = RequestMethod.POST)
     public Map addAlbumToList(@Param("albumID")Integer albumID,HttpServletRequest request)
     {
@@ -127,7 +132,8 @@ public class PlayerController
         return null;
 
     }
-    @ResponseBody
+
+    @UserLog("PlayerController")
     @RequestMapping(value = "/addSongListToList",method = RequestMethod.POST)
     public Map addSongListToList(@Param("songListID")Integer songListID,HttpServletRequest request)
     {
@@ -171,7 +177,7 @@ public class PlayerController
         return returnMap;
     }
 
-    @ResponseBody
+    @UserLog("PlayerController")
     @RequestMapping(value = "/getNextSong",method = RequestMethod.POST)
     public Song getNextSong(@Param("songID") String songID,HttpServletRequest request)
     {
@@ -189,8 +195,8 @@ public class PlayerController
         return playerService.getSongByID(hashMap);
     }
 
+    @UserLog("PlayerController")
     @RequestMapping(value = "/getLastSong",method = RequestMethod.POST)
-    @ResponseBody
     public Song getLastSong(@Param("songID")String songID,HttpServletRequest request)
     {
         ArrayList<Integer>playList=(ArrayList<Integer>) request.getSession().getAttribute("playList_mode");
@@ -206,8 +212,9 @@ public class PlayerController
         }
         return playerService.getSongByID(hashMap);
     }
+
+    @UserLog("PlayerController")
     @RequestMapping(value = "/changePlayMode",method = RequestMethod.POST)
-    @ResponseBody
     public void changePlayMode(@Param("mode")String mode,@Param("songID")String songID, HttpServletRequest request)
     {
         ArrayList<Integer>playlist=(ArrayList<Integer>)request.getSession().getAttribute("playList");
@@ -233,8 +240,9 @@ public class PlayerController
             request.getSession().setAttribute("playList_mode",temp);
         }
     }
+
+    @UserLog("PlayerController")
     @RequestMapping(value = "/api/getSongByID",method = RequestMethod.POST)
-    @ResponseBody
     public Song getSongByID(@Param("songID")String songID)
     {
         HashMap hashMap=new HashMap();
@@ -242,37 +250,24 @@ public class PlayerController
         Song temp=playerService.getSongByID(hashMap);
         return temp;
     }
+
+    @UserLog("PlayerController")
     @PostMapping(value = "/api/addSearchSong")
-    @ResponseBody
     public Integer addSong(String songID,String path,String name,String image,String length,String albumID,String albumName,String singer,String lrc,String singerID)
     {
         return playerService.addSong(songID,path,name,image,length,albumID,albumName,singer,lrc,singerID);
     }
 
-    /*@RequestMapping(value = "/getSongsByListID",method = RequestMethod.POST)
-    @ResponseBody
-    public ArrayList<Song>getSongsByListID(@Param("songListID")String songListID,HttpServletRequest request)
-    {
-        ArrayList<Integer>playList=(ArrayList<Integer>) request.getSession().getAttribute("playList");
-        HashMap<String,Object>hashMap =new HashMap<>();
-        hashMap.put("songlistid",songListID);
-        ArrayList<Integer>songIdList=playerService.getListByListID(hashMap);
-        ArrayList<Song>songList=new ArrayList<>();
-        for(Integer i:songIdList)
-        {
-            if(playList.indexOf())
-        }
-        return songList;
-    }*/
+    @UserLog("PlayerController")
     @GetMapping(value = "/api/getUserRecommend")
-    @ResponseBody
     public Object getUserRecommend(String userID)throws Exception{
         Map tempMap=new HashMap();
         tempMap.put("recommend",playerService.getRecommendSingers(userID));
         return tempMap;
     }
+
+    @UserLog("PlayerController")
     @PostMapping(value = "/api/addUserHistory")
-    @ResponseBody
     public Object add(String userID,String singerID){
         return playerService.addUserHistory(userID,singerID);
     }

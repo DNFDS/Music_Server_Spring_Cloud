@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
-@EnableAutoConfiguration
+@RestController
 @CrossOrigin
 @RequestMapping("/database/album")
 public class AlbumController {

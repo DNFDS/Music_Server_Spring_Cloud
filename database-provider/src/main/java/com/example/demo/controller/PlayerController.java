@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@Controller
+@RestController
 @CrossOrigin
 @RequestMapping("/database/player")
 public class PlayerController

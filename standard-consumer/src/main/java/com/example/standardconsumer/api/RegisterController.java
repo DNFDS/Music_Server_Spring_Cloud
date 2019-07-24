@@ -1,5 +1,6 @@
 package com.example.standardconsumer.api;
 
+import com.example.standardconsumer.common.constants.UserLog;
 import com.example.standardconsumer.domain.User;
 import com.example.standardconsumer.domain.result.ResultEntity;
 import com.example.standardconsumer.service.UserService;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+@RestController
 @CrossOrigin
 @RequestMapping("/standard-consumer")
 public class RegisterController {
@@ -23,6 +24,7 @@ public class RegisterController {
     @Autowired
     private UserService userService;
 
+    @UserLog("RegisterController")
     @RequestMapping(value ="/api/Register",method = RequestMethod.POST)
     public Map Register(@RequestParam("name") String name,@RequestParam("pwd")String pwd){
         Map<String, Object>map = new HashMap<>();

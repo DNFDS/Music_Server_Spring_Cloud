@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@EnableAutoConfiguration
+@RestController
 @CrossOrigin
 @RequestMapping("/database/keep")
 public class KeepController {

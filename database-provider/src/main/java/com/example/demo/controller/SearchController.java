@@ -12,6 +12,7 @@ import java.util.Map;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/database/search")
 public class SearchController {
     @Autowired
     UserService userService;
@@ -30,7 +31,6 @@ public class SearchController {
     @GetMapping(value ="/api/Search/SongList")
     public Object searchSonglist(@RequestParam("words")String searchWords){
         return songListService.getSongListByNamePart(searchWords);
-        
     }
 
     @GetMapping(value ="/api/Search/Album")

@@ -1,5 +1,6 @@
 package com.example.standardconsumer.api;
 
+import com.example.standardconsumer.common.constants.UserLog;
 import com.example.standardconsumer.domain.Album;
 import com.example.standardconsumer.domain.Song;
 import com.example.standardconsumer.domain.SongList;
@@ -11,16 +12,13 @@ import com.example.standardconsumer.service.SongService;
 import com.example.standardconsumer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Map;
 
-@Controller
+@RestController
 @CrossOrigin
 @RequestMapping("/standard-consumer")
 public class SignInController {
@@ -34,12 +32,14 @@ public class SignInController {
     @Autowired
     private AlbumService albumService;
 
+    @UserLog("SearchController")
     @RequestMapping(value ="/",method = RequestMethod.GET)
     public String index(Map<String, Object> map){
         map.put("test1","id");
         return "Login";
     }
 
+    @UserLog("SearchController")
     @RequestMapping(value ="/Login",method = RequestMethod.POST)
     public String Login(@RequestParam("id") String id,@RequestParam("pwd")String pwd,
                         Map<String, Object> map,HttpServletRequest request){
@@ -58,17 +58,22 @@ public class SignInController {
         }
     }
 
+    @UserLog("SearchController")
     @RequestMapping(value = "/myPage")
     public String toMypage(HttpServletRequest request){
         Object o = request.getSession().getAttribute("user");
         request.getSession().setAttribute("visted",o);
         return "redirect:/profile/like_song";
     }
+
+    @UserLog("SearchController")
     @RequestMapping(value ="/Exit")
     public String Exit(HttpServletRequest request) {
         request.getSession().invalidate();
         return "redirect:/";
     }
+
+    @UserLog("SearchController")
     @RequestMapping(value = "/findMusic")
     public String findMusic(HttpServletRequest request,Map<String, Object> map){
         User user = (User) request.getSession(false).getAttribute("user");

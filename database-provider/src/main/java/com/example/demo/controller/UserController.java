@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Map;
 
-@Controller
-@EnableAutoConfiguration
+@RestController
 @CrossOrigin
 @RequestMapping("/database/user")
 public class UserController {
