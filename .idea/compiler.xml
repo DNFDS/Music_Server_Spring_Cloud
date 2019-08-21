@@ -13,6 +13,7 @@
         <module name="database-provider" />
         <module name="demo" />
         <module name="erukasever" />
+        <module name="finance-consumer" />
         <module name="message-center" />
         <module name="MusicServer_SpringCloud" />
         <module name="standard-consumer" />

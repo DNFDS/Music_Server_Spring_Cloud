@@ -13,6 +13,7 @@
         <option value="$PROJECT_DIR$/cms-consumer/pom.xml" />
         <option value="$PROJECT_DIR$/admin-consumer/pom.xml" />
         <option value="$PROJECT_DIR$/message-center/pom.xml" />
+        <option value="$PROJECT_DIR$/finance-consumer/pom.xml" />
       </list>
     </option>
   </component>
