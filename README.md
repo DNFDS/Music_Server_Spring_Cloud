@@ -25,7 +25,7 @@
 * 3.redis加锁 锁名 key:buySong+userid+songid value: sessionid 加锁失败则表示有进程在执行该事务 return failed
 * 4.将消息插入本地消息表  messagename:buySong+userid+songid state:new  表示新建消息 若失败则return failed
 * 5.将消息发送至远程消息中心 若失败则抛runtimeexception 回滚事务
-* * 6.执行扣费服务 若失败则抛runtimeexception 回滚事务
+* 6.执行扣费服务 若失败则抛runtimeexception 回滚事务
 * 7.修改本地消息表状态为finished 若失败则抛runtimeexception 回滚事务
 * 8.通知远程消息中心更新状态为ready
 * 9.redis解锁
