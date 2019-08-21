@@ -13,8 +13,11 @@
         <module name="database-provider" />
         <module name="demo" />
         <module name="erukasever" />
+        <module name="message-center" />
         <module name="MusicServer_SpringCloud" />
         <module name="standard-consumer" />
+        <module name="standard-consumer (1)" />
+        <module name="standard-consumer (2)" />
         <module name="zuul-gateway" />
       </profile>
     </annotationProcessing>
